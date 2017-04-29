@@ -8,9 +8,9 @@ Boid::Boid(float x, float y, float z, int i)
 	float vel = (float)(rand() / (double)(RAND_MAX + 1));
 	vel = vel * 2 - 1;
 	velocity = glm::vec3(vel, vel, vel); //poner un valor fijo para las velocidades, checar el codigo
-	r = 3.0;
-	maxspeed = 0.4f;
-	maxforce = 0.2f;
+	r = 4.0;
+	maxspeed = 0.2f;
+	maxforce = 0.09f;
 	position = glm::vec3(i, i, z);
 	indice = i;
 	std::cout << "constructor " << i << std::endl;
@@ -26,16 +26,17 @@ void Boid::run(float time, std::vector<Boid>& boids)
 {
 	flock(boids);
 	update();
-	limits();
+	limits(0);
 }
 
-void Boid::runC(std::vector<Boid> &boids, float x, float y, float z)
+void Boid::runC(std::vector<Boid> &boids, float z)
 {
 	//_transform.SetRotation(time, time, time);
 	//_transform.SetScale(0.2, 0.2, 0.2);
 	flock(boids);
+	limits(z);
 	update();
-	limits();
+
 }
 
 void Boid::applyForce(glm::vec3 force)
@@ -227,7 +228,7 @@ void Boid::draw(int i)
 
 	std::cout << "dibujar " << std::endl;
 	_transform.SetPosition(i, i, i);
-	_transform.SetScale(0.2, 0.2, 0.2);
+	_transform.SetScale(1, 1, 1);
 }
 
 //render lo mueve y lo actualiza, se va a mandar a llamar cada cuadro
@@ -266,7 +267,7 @@ glm::vec3 Boid::separate(std::vector<Boid> &boids)
 			{
 				glm:: vec3 diff = position - other.position;
 				diff = glm::normalize(diff);
-				//diff /= d;
+				diff /= d;
 				steer += diff;
 				count++;
 			}
@@ -357,15 +358,15 @@ glm::vec3 Boid::cohesion(std::vector<Boid> &boids)
 	}
 }
 
-void Boid::limits()
+void Boid::limits(float z)
 {
-	if (position.x < -r) position.x = 5 + r; //width + r
-	if (position.y < -r) position.y = 5 + r; //height + r
-	if (position.z < -r / 2) position.y = 5 + r;
+	if (position.x < -18) position.x = 34; //el panal va de (-18, 34) en x
+	if (position.y <= 4) position.y += 51; //el panal va de (4, 52) en y
+	if (position.z < z) position.z = z + 29; //le deje que no pudieran ir detras de la camara
 
-	if (position.x > 5 + r) position.x = -r;
-	if (position.y > 5 + r) position.y = -r;
-	if (position.z > 5 + r) position.y = -r;
+	if (position.x > 35 + r) position.x = -17;
+	if (position.y > 52 + r) position.y = 5;
+	if (position.z > z + 30) position.z = z; //les deje 30 unidades hacia enfrente de la camara para moverse
 
 }
 /*

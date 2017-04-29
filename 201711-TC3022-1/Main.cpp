@@ -88,7 +88,7 @@ Display _display;
 void Initialize()
 {
 	//BOIDS
-	for (int i = 0; i <20; i++)
+	for (int i = 0; i <25; i++)
 	{
 		//Boid b = Boid(_camera.GetPosition().x, _camera.GetPosition().y - 3.0f, _camera.GetPosition().z + 7.2f, i);
 		Boid b = Boid(0, 0, 0, i);
@@ -357,7 +357,7 @@ void GameLoop()
 
 		for (size_t i = 0; i < _boids.size(); i++)
 		{
-			_boids[i].runC(_boids, (-24.0f + _terrain.GetWidth()) / 2, (_terrain.GetWidth() - 4.0f) / 2, _terrain.GetDepth() / 2);
+			_boids[i].runC(_boids, _camera.GetPosition().z);
 			//_boids[i].run(0.5f, _boids);
 			_boidShaderProgram.SetUniformMatrix("ModelMatrix", _boids[i].GetModelMatrix());
 			_boidShaderProgram.SetUniformMatrix("NormalMatrix", glm::mat3(glm::transpose(glm::inverse(_boids[i].GetModelMatrix()))));
@@ -781,29 +781,32 @@ void Keyboard(unsigned char key, int x, int y)
 	keyStates[key] = true;
 	//&& keyStates[key] == true
 	if (keyStates['w'] == true) {
-		//keyStates[key] = true;
-		_camera.MoveUp(1.0f, true);
-		_beeTransform.MoveUp(1.0f, true);
-		_beeBodyTransform.MoveUp(1.0f, true);
-		_beeHeadTransform.MoveUp(1.0f, true);
-		_beeEyesTransform.MoveUp(1.0f, true);
-		_beeEyesTransform2.MoveUp(1.0f, true);
+		if (_beeHeadTransform.GetPosition().y <= 52 && _beeHeadTransform.GetPosition().y >= 3)
+		{
+			//keyStates[key] = true;
+			_camera.MoveUp(1.0f, true);
+			_beeTransform.MoveUp(1.0f, true);
+			_beeBodyTransform.MoveUp(1.0f, true);
+			_beeHeadTransform.MoveUp(1.0f, true);
+			_beeEyesTransform.MoveUp(1.0f, true);
+			_beeEyesTransform2.MoveUp(1.0f, true);
 
-		_displayPointsTransform.MoveUp(1.0f, true);
-		_displayTimeTransform.MoveUp(1.0f, true);
-		_displayPointsTens.MoveUp(1.0f, true);
-		_displayPointsDigits.MoveUp(1.0f, true);
-		_displayTimeTens.MoveUp(1.0f, true);
-		_displayTimeDigits.MoveUp(1.0f, true);
-		/*
-		_terrainTransform.MoveUp(-1.0f, true);
-		_terrainTransformWall.MoveUp(-1.0f, true);
-		_terrainTransformWall2.MoveUp(-1.0f, true);
-		_terrainTransformRoof.MoveUp(-1.0f, true);*/
+			_displayPointsTransform.MoveUp(1.0f, true);
+			_displayTimeTransform.MoveUp(1.0f, true);
+			_displayPointsTens.MoveUp(1.0f, true);
+			_displayPointsDigits.MoveUp(1.0f, true);
+			_displayTimeTens.MoveUp(1.0f, true);
+			_displayTimeDigits.MoveUp(1.0f, true);
+			/*
+			_terrainTransform.MoveUp(-1.0f, true);
+			_terrainTransformWall.MoveUp(-1.0f, true);
+			_terrainTransformWall2.MoveUp(-1.0f, true);
+			_terrainTransformRoof.MoveUp(-1.0f, true);*/
+		}
 	}
 	if (keyStates['s'] == true) {
 		//keyStates[key] = true;
-		if (_beeHeadTransform.GetPosition().y <= 52 && _beeHeadTransform.GetPosition().y >= 4)
+		if (_beeHeadTransform.GetPosition().y <= 53 && _beeHeadTransform.GetPosition().y >= 4)
 		{
 			_camera.MoveUp(-1.0f, true);
 			_beeTransform.MoveUp(-1.0f, true);
@@ -898,47 +901,53 @@ void SpecialKeys(int key, int x, int y)
 	}
 	if (keySpecialKeys[GLUT_KEY_RIGHT] == true)//RIGHT
 	{
-		//keySpecialKeys[key] = true;
-		_camera.MoveRight(0.5f, true);
-		_beeTransform.MoveRight(0.5f, true);
-		_beeBodyTransform.MoveRight(0.5f, true);
-		_beeHeadTransform.MoveRight(0.5f, true);
-		_beeEyesTransform.MoveRight(0.5f, true);
-		_beeEyesTransform2.MoveRight(0.5f, true);
+		if (_beeHeadTransform.GetPosition().x <= 35 && _beeHeadTransform.GetPosition().x >= -20)
+		{
+			//keySpecialKeys[key] = true;
+			_camera.MoveRight(0.5f, true);
+			_beeTransform.MoveRight(0.5f, true);
+			_beeBodyTransform.MoveRight(0.5f, true);
+			_beeHeadTransform.MoveRight(0.5f, true);
+			_beeEyesTransform.MoveRight(0.5f, true);
+			_beeEyesTransform2.MoveRight(0.5f, true);
 
-		_displayPointsTransform.MoveRight(0.5f, true);
-		_displayTimeTransform.MoveRight(0.5f, true);
-		_displayPointsTens.MoveRight(0.5f, true);
-		_displayPointsDigits.MoveRight(0.5f, true);
-		_displayTimeTens.MoveRight(0.5f, true);
-		_displayTimeDigits.MoveRight(0.5f, true);
+			_displayPointsTransform.MoveRight(0.5f, true);
+			_displayTimeTransform.MoveRight(0.5f, true);
+			_displayPointsTens.MoveRight(0.5f, true);
+			_displayPointsDigits.MoveRight(0.5f, true);
+			_displayTimeTens.MoveRight(0.5f, true);
+			_displayTimeDigits.MoveRight(0.5f, true);
 
-		/*_terrainTransform.MoveRight(-0.5f, true);
-		_terrainTransformWall.MoveRight(-0.5f, true);
-		_terrainTransformWall2.MoveRight(-0.5f, true);
-		_terrainTransformRoof.MoveRight(-0.5f, true);*/
+			/*_terrainTransform.MoveRight(-0.5f, true);
+			_terrainTransformWall.MoveRight(-0.5f, true);
+			_terrainTransformWall2.MoveRight(-0.5f, true);
+	_terrainTransformRoof.MoveRight(-0.5f, true);*/
+		}
 
 	}
 	if (keySpecialKeys[GLUT_KEY_LEFT] == true)//LEFT
 	{
-		_camera.MoveRight(-0.5f, true);
-		_beeTransform.MoveRight(-0.5f, true);
-		_beeBodyTransform.MoveRight(-0.5f, true);
-		_beeHeadTransform.MoveRight(-0.5f, true);
-		_beeEyesTransform.MoveRight(-0.5f, true);
-		_beeEyesTransform2.MoveRight(-0.5f, true);
+		if (_beeHeadTransform.GetPosition().x <= 36 && _beeHeadTransform.GetPosition().x >= -19)
+		{
+			_camera.MoveRight(-0.5f, true);
+			_beeTransform.MoveRight(-0.5f, true);
+			_beeBodyTransform.MoveRight(-0.5f, true);
+			_beeHeadTransform.MoveRight(-0.5f, true);
+			_beeEyesTransform.MoveRight(-0.5f, true);
+			_beeEyesTransform2.MoveRight(-0.5f, true);
 
-		_displayPointsTransform.MoveRight(-0.5f, true);
-		_displayTimeTransform.MoveRight(-0.5f, true);
-		_displayPointsTens.MoveRight(-0.5f, true);
-		_displayPointsDigits.MoveRight(-0.5f, true);
-		_displayTimeTens.MoveRight(-0.5f, true);
-		_displayTimeDigits.MoveRight(-0.5f, true);
-		/*//keySpecialKeys[key] = true;
-		_terrainTransform.MoveRight(0.5f, true);
-		_terrainTransformWall.MoveRight(0.5f, true);
-		_terrainTransformWall2.MoveRight(0.5f, true);
-		_terrainTransformRoof.MoveRight(0.5f, true);*/
+			_displayPointsTransform.MoveRight(-0.5f, true);
+			_displayTimeTransform.MoveRight(-0.5f, true);
+			_displayPointsTens.MoveRight(-0.5f, true);
+			_displayPointsDigits.MoveRight(-0.5f, true);
+			_displayTimeTens.MoveRight(-0.5f, true);
+			_displayTimeDigits.MoveRight(-0.5f, true);
+			/*//keySpecialKeys[key] = true;
+			_terrainTransform.MoveRight(0.5f, true);
+			_terrainTransformWall.MoveRight(0.5f, true);
+			_terrainTransformWall2.MoveRight(0.5f, true);
+			_terrainTransformRoof.MoveRight(0.5f, true);*/
+		}
 	}
 }
 
