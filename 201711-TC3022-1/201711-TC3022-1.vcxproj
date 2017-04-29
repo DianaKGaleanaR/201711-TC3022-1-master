@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{20694B05-74A9-4AD2-BB3A-1B2CC4C09CDC}</ProjectGuid>
+    <RootNamespace>My201711TC30221</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Libraries\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>freeglut.lib;glew32.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Bee.cpp" />
+    <ClCompile Include="Boid.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="InputFile.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="Time.cpp" />
+    <ClCompile Include="Transform.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AnimatedColor.frag" />
+    <None Include="Default.frag" />
+    <None Include="Default.vert" />
+    <None Include="DefaultTexture.frag" />
+    <None Include="DefaultTexture.vert" />
+    <None Include="DefaultTexture2.frag" />
+    <None Include="DefaultTexture2.vert" />
+    <None Include="DefaultTransform.vert" />
+    <None Include="HeightMap.frag" />
+    <None Include="HeightMap.vert" />
+    <None Include="PalmTree.frag" />
+    <None Include="PhongShading.frag" />
+    <None Include="PhongShading.vert" />
+    <None Include="SineWave.frag" />
+    <None Include="SineWave.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bee.h" />
+    <ClInclude Include="Boid.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="InputFile.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="Texture2D.h" />
+    <ClInclude Include="Time.h" />
+    <ClInclude Include="Transform.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\Luis Motta\Desktop\bee.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\beeBody.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\beeEyes.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Black.jpeg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\heightmap.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\HMZBrushHeight.tif" />
+    <Image Include="C:\Users\Luis Motta\Desktop\HMZBrushTextJPG.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\HMZFlat.tif" />
+    <Image Include="C:\Users\Luis Motta\Desktop\HMZFlatFill.tif" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Images\0.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Images\1.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Images\2.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Images\3.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Images\4.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Images\5.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Images\6.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Images\7.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Images\8.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Images\9.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\inal.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\super-big-cute-bumble-bee.png" />
+    <Image Include="C:\Users\Luis Motta\Desktop\Time-PNG-Image.png" />
+    <Image Include="C:\Users\Luis Motta\Desktop\yellow-texture-26.jpg" />
+    <Image Include="C:\Users\Luis Motta\Desktop\yellow-texture-29.jpg" />
+    <Image Include="hm.png" />
+    <Image Include="crate.png" />
+    <Image Include="smiley.jpeg" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
