@@ -19,8 +19,10 @@
 #include <iostream>
 #include <vector>
 
+
 //PREUBA GITHUB
 
+float secondsJugar;
 std::vector<Boid> _boids;
 ShaderProgram _boidShaderProgram;
 Texture2D _boidTexture;
@@ -313,11 +315,7 @@ void Idle()
 
 void GameLoop()
 {
-	int secondsjugar = Time::GetDeltaTime().count() + Time::GetElapsedTime().count();
-	if (secondsjugar > 10)
-	{
-		jugar = true;
-	}
+
 
 	if (jugar)
 	{
@@ -503,7 +501,7 @@ void GameLoop()
 		_time.Unbind();
 
 		//TIME CALCULATIONS
-		float seconds = Time::GetDeltaTime().count() + Time::GetElapsedTime().count();
+		float seconds = (Time::GetDeltaTime().count() + Time::GetElapsedTime().count()) - secondsJugar;
 		int millares = seconds / 1000;
 		int centenas = (seconds - (millares * 1000)) / 100;
 		int decenas = (seconds - (millares * 1000 + centenas * 100)) / 10;
@@ -856,6 +854,7 @@ void Keyboard(unsigned char key, int x, int y)
 		//glm::vec3 positionbee = _beeHeadTransform.GetPosition();
 		//std::cout << positionbee.x << ", " << positionbee.y << ", " << positionbee.z << ", " << std::endl;
 		jugar = true;
+		secondsJugar = Time::GetDeltaTime().count() + Time::GetElapsedTime().count();
 	}
 }
 
