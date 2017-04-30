@@ -84,9 +84,11 @@ Terrain _terrain;
 Bee _bee;
 Display _display;
 
+bool jugar;
 
 void Initialize()
 {
+	jugar = false;
 	//BOIDS
 	for (int i = 0; i <25; i++)
 	{
@@ -311,49 +313,57 @@ void Idle()
 
 void GameLoop()
 {
-	// Siempre es recomendable borrar la información anterior del framebuffer.
-	// En este caso estamos borrando la información de color,
-	// y la información de profundidad.
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	//glActiveTexture(GL_TEXTURE0);//DEFINICION DEL NUMERO PARA EL UNIFORM al final de GL_TEXTURE#
-
-	Time::Tick();
-	_boidShaderProgram.Activate();
-	_boidTexture.Bind();
-	glActiveTexture(GL_TEXTURE0);
-
-	int secondsBoids = Time::GetDeltaTime().count() + Time::GetElapsedTime().count();
-	//std::cout << secondsBoids<< std::endl;
-	
-		//actualiza 
-	//_beeHeadTransform.SetCenter(_beeHeadTransform.GetPosition());
-
-	for (size_t i = 0; i < _boids.size(); i++)
+	int secondsjugar = Time::GetDeltaTime().count() + Time::GetElapsedTime().count();
+	if (secondsjugar > 10)
 	{
-		
-		_boids[i].SetCenter(_boids[i].GetPosition());
-		//_boids[i].SetRadius(3.0f);
+		jugar = true;
 	}
 
-	
-	for (size_t i = 0; i < _boids.size(); i++)
+	if (jugar)
 	{
-		if (_boids[i].GetDraw() == false)
+		// Siempre es recomendable borrar la información anterior del framebuffer.
+		// En este caso estamos borrando la información de color,
+		// y la información de profundidad.
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		//glActiveTexture(GL_TEXTURE0);//DEFINICION DEL NUMERO PARA EL UNIFORM al final de GL_TEXTURE#
+
+		Time::Tick();
+		_boidShaderProgram.Activate();
+		_boidTexture.Bind();
+		glActiveTexture(GL_TEXTURE0);
+
+		int secondsBoids = Time::GetDeltaTime().count() + Time::GetElapsedTime().count();
+		//std::cout << secondsBoids<< std::endl;
+
+			//actualiza 
+		//_beeHeadTransform.SetCenter(_beeHeadTransform.GetPosition());
+
+		for (size_t i = 0; i < _boids.size(); i++)
 		{
-			_boids[i].SetDraw(_boids[i].IntersectedCircle(_beeHeadTransform.GetCenter(), _beeHeadTransform.GetRadius()));
-			if (_boids[i].GetDraw() == true)
+
+			_boids[i].SetCenter(_boids[i].GetPosition());
+			//_boids[i].SetRadius(3.0f);
+		}
+
+
+		for (size_t i = 0; i < _boids.size(); i++)
+		{
+			if (_boids[i].GetDraw() == false)
 			{
-				beeCount += 1;
+				_boids[i].SetDraw(_boids[i].IntersectedCircle(_beeHeadTransform.GetCenter(), _beeHeadTransform.GetRadius()));
+				if (_boids[i].GetDraw() == true)
+				{
+					beeCount += 1;
+				}
 			}
 		}
-	}
 
-	
 
-	//_Boidstexture.Bind();
 
-	
+		//_Boidstexture.Bind();
+
+
 
 		for (size_t i = 0; i < _boids.size(); i++)
 		{
@@ -367,408 +377,409 @@ void GameLoop()
 			//{
 				//_boids[i].render();
 		//	}
-			
+
 		}
 
-	_boidTexture.Unbind();
+		_boidTexture.Unbind();
 
-	_boidShaderProgram.Deactivate();
-
-	
-	
-	/*_terrainTransform.MoveForward(-0.002f,true);
-	_terrainTransformWall.MoveForward(-0.002f, true);
-	_terrainTransformWall2.MoveForward(-0.002f, true);
-	_terrainTransformRoof.MoveForward(-0.002f, true);*/
-
-	_camera.MoveForward(0.005f, true);
-	_beeTransform.MoveForward(0.005f, true);
-	_beeBodyTransform.MoveForward(0.005f, true);
-	_beeHeadTransform.MoveForward(0.005f, true);
-	_beeEyesTransform.MoveForward(0.005f, true);
-	_beeEyesTransform2.MoveForward(0.005f, true);
-
-	_displayPointsTransform.MoveForward(0.005f, true);
-	_displayTimeTransform.MoveForward(0.005f, true);
-	_displayPointsTens.MoveForward(0.005f, true);
-	_displayPointsDigits.MoveForward(0.005f, true);
-	_displayTimeTens.MoveForward(0.005f, true);
-	_displayTimeDigits.MoveForward(0.005f, true);
-
-	_ShaderProgram.Activate();
-	glActiveTexture(GL_TEXTURE0);
-	_terrainTexture.Bind();
-
-	glActiveTexture(GL_TEXTURE1);
-	_terrainHeightmap.Bind();
-	float universalWidth = _terrain.GetWidth();
-	float universalDepth = _terrain.GetDepth();
-	float universalDepthMod = 0.0f;
-	//float rango = 0.0f;
-
-	for (int i = 0; i < 6; i++)
-	{
-		_ShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_terrainTransform.GetModelMatrix());
-		_Mesh.Draw(GL_TRIANGLES);
-
-		_ShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_terrainTransformWall.GetModelMatrix());
-		_Mesh.Draw(GL_TRIANGLES);
-
-		_ShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_terrainTransformWall2.GetModelMatrix());
-		_Mesh.Draw(GL_TRIANGLES);
-
-		_ShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_terrainTransformRoof.GetModelMatrix());
-		_Mesh.Draw(GL_TRIANGLES);
+		_boidShaderProgram.Deactivate();
 
 
 
-		_terrainTransform.SetPosition(-24.0f, -4.0f, 0.0f + universalDepthMod);
-		_terrainTransformWall.SetPosition(-24.0f, universalWidth - 4.0, 0.0f + universalDepthMod);
-		_terrainTransformWall2.SetPosition(universalWidth - 24.0f, -4.0f, 0.0f + universalDepthMod);
-		_terrainTransformRoof.SetPosition(39.0f, universalWidth - 4.0f, 0.0f + universalDepthMod);
+		/*_terrainTransform.MoveForward(-0.002f,true);
+		_terrainTransformWall.MoveForward(-0.002f, true);
+		_terrainTransformWall2.MoveForward(-0.002f, true);
+		_terrainTransformRoof.MoveForward(-0.002f, true);*/
 
-		universalDepthMod += universalDepth;
-	}
+		_camera.MoveForward(0.005f, true);
+		_beeTransform.MoveForward(0.005f, true);
+		_beeBodyTransform.MoveForward(0.005f, true);
+		_beeHeadTransform.MoveForward(0.005f, true);
+		_beeEyesTransform.MoveForward(0.005f, true);
+		_beeEyesTransform2.MoveForward(0.005f, true);
+
+		_displayPointsTransform.MoveForward(0.005f, true);
+		_displayTimeTransform.MoveForward(0.005f, true);
+		_displayPointsTens.MoveForward(0.005f, true);
+		_displayPointsDigits.MoveForward(0.005f, true);
+		_displayTimeTens.MoveForward(0.005f, true);
+		_displayTimeDigits.MoveForward(0.005f, true);
+
+		_ShaderProgram.Activate();
+		glActiveTexture(GL_TEXTURE0);
+		_terrainTexture.Bind();
+
+		glActiveTexture(GL_TEXTURE1);
+		_terrainHeightmap.Bind();
+		float universalWidth = _terrain.GetWidth();
+		float universalDepth = _terrain.GetDepth();
+		float universalDepthMod = 0.0f;
+		//float rango = 0.0f;
+
+		for (int i = 0; i < 6; i++)
+		{
+			_ShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_terrainTransform.GetModelMatrix());
+			_Mesh.Draw(GL_TRIANGLES);
+
+			_ShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_terrainTransformWall.GetModelMatrix());
+			_Mesh.Draw(GL_TRIANGLES);
+
+			_ShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_terrainTransformWall2.GetModelMatrix());
+			_Mesh.Draw(GL_TRIANGLES);
+
+			_ShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_terrainTransformRoof.GetModelMatrix());
+			_Mesh.Draw(GL_TRIANGLES);
 
 
 
-	glActiveTexture(GL_TEXTURE1);
-	_terrainHeightmap.Unbind();
+			_terrainTransform.SetPosition(-24.0f, -4.0f, 0.0f + universalDepthMod);
+			_terrainTransformWall.SetPosition(-24.0f, universalWidth - 4.0, 0.0f + universalDepthMod);
+			_terrainTransformWall2.SetPosition(universalWidth - 24.0f, -4.0f, 0.0f + universalDepthMod);
+			_terrainTransformRoof.SetPosition(39.0f, universalWidth - 4.0f, 0.0f + universalDepthMod);
 
-	glActiveTexture(GL_TEXTURE0);
-	_terrainTexture.Unbind();
-	_ShaderProgram.Deactivate();
+			universalDepthMod += universalDepth;
+		}
 
-	_beeShaderProgram.Activate();
-	glActiveTexture(GL_TEXTURE0);
-	_beeTexture.Bind();
 
-	//_ShaderProgram.SetUniformf("time", time);
-	_beeShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_beeTransform.GetModelMatrix());
-	_BeeMesh.Draw(GL_TRIANGLES);
 
-	_beeBodyTexture.Bind();
-	//_beeTransform.SetPosition(1.0f,1.0f,1.0f);
-	//_beeTransform.SetScale();
-	_beeShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_beeBodyTransform.GetModelMatrix());
-	_BeeMesh.Draw(GL_TRIANGLES);
+		glActiveTexture(GL_TEXTURE1);
+		_terrainHeightmap.Unbind();
 
-	_beeShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_beeHeadTransform.GetModelMatrix());
-	_BeeMesh.Draw(GL_TRIANGLES);
+		glActiveTexture(GL_TEXTURE0);
+		_terrainTexture.Unbind();
+		_ShaderProgram.Deactivate();
 
-	_beeBodyTexture.Unbind();
+		_beeShaderProgram.Activate();
+		glActiveTexture(GL_TEXTURE0);
+		_beeTexture.Bind();
 
-	_beeEyesTexture.Bind();
+		//_ShaderProgram.SetUniformf("time", time);
+		_beeShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_beeTransform.GetModelMatrix());
+		_BeeMesh.Draw(GL_TRIANGLES);
 
-	_beeShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_beeEyesTransform.GetModelMatrix());
-	_BeeMesh.Draw(GL_TRIANGLES);
+		_beeBodyTexture.Bind();
+		//_beeTransform.SetPosition(1.0f,1.0f,1.0f);
+		//_beeTransform.SetScale();
+		_beeShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_beeBodyTransform.GetModelMatrix());
+		_BeeMesh.Draw(GL_TRIANGLES);
 
-	_beeShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_beeEyesTransform2.GetModelMatrix());
-	_BeeMesh.Draw(GL_TRIANGLES);
+		_beeShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_beeHeadTransform.GetModelMatrix());
+		_BeeMesh.Draw(GL_TRIANGLES);
 
-	_beeEyesTexture.Unbind();
+		_beeBodyTexture.Unbind();
 
-	glActiveTexture(GL_TEXTURE0);
+		_beeEyesTexture.Bind();
 
-	_beeTexture.Unbind();
+		_beeShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_beeEyesTransform.GetModelMatrix());
+		_BeeMesh.Draw(GL_TRIANGLES);
 
-	_beeShaderProgram.Deactivate();
+		_beeShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_beeEyesTransform2.GetModelMatrix());
+		_BeeMesh.Draw(GL_TRIANGLES);
 
-	//DISPLAY
-	_displayShaderProgram.Activate();
-	glActiveTexture(GL_TEXTURE0);
-	_points.Bind();
+		_beeEyesTexture.Unbind();
 
-	_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTransform.GetModelMatrix());
-	_displayMesh.Draw(GL_TRIANGLES);
-	
+		glActiveTexture(GL_TEXTURE0);
 
-	_points.Unbind();
+		_beeTexture.Unbind();
 
-	_time.Bind();
+		_beeShaderProgram.Deactivate();
 
-	_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTransform.GetModelMatrix());
-	_displayMesh.Draw(GL_TRIANGLES);
+		//DISPLAY
+		_displayShaderProgram.Activate();
+		glActiveTexture(GL_TEXTURE0);
+		_points.Bind();
 
-	_time.Unbind();
-
-	//TIME CALCULATIONS
-	float seconds= Time::GetDeltaTime().count()+Time::GetElapsedTime().count();
-	int millares = seconds / 1000;
-	int centenas = (seconds - (millares * 1000)) / 100;
-	int decenas = (seconds - (millares * 1000 + centenas * 100)) / 10;
-	int unidades = seconds - (millares * 1000 + centenas * 100 + decenas * 10);
-
-	//BEE COUNT CALCULATIONS
-	int millaresBee = beeCount / 1000;
-	int centenasBee = (beeCount - (millaresBee * 1000)) / 100;
-	int decenasBee = (beeCount - (millaresBee * 1000 + centenasBee * 100)) / 10;
-	int unidadesBee = beeCount - (millaresBee * 1000 + centenasBee * 100 + decenasBee * 10);
-
-	//BEEEE
-	//digitos
-	if (unidadesBee == 0)
-	{
-		_0.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
+		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTransform.GetModelMatrix());
 		_displayMesh.Draw(GL_TRIANGLES);
-		_0.Unbind();
-	}
-	if (unidadesBee == 1)
-	{
-		_1.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_1.Unbind();
-	}
-	if (unidadesBee == 2)
-	{
-		_2.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_2.Unbind();
-	}
-	if (unidadesBee == 3)
-	{
-		_3.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_3.Unbind();
-	}
-	if (unidadesBee == 4)
-	{
-		_4.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_4.Unbind();
-	}
-	if (unidadesBee == 5)
-	{
-		_5.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_5.Unbind();
-	}
-	if (unidadesBee == 6)
-	{
-		_6.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_6.Unbind();
-	}
-	if (unidadesBee == 7)
-	{
-		_7.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_7.Unbind();
-	}
-	if (unidadesBee == 8)
-	{
-		_8.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_8.Unbind();
-	}
-	if (unidadesBee == 9)
-	{
-		_9.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_9.Unbind();
-	}
-	//decenas
-	if (decenasBee == 0)
-	{
-		_0.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_0.Unbind();
-	}
-	if (decenasBee == 1)
-	{
-		_1.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_1.Unbind();
-	}
-	if (decenasBee == 2)
-	{
-		_2.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_2.Unbind();
-	}
-	if (decenasBee == 3)
-	{
-		_3.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_3.Unbind();
-	}
-	if (decenasBee == 4)
-	{
-		_4.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_4.Unbind();
-	}
-	if (decenasBee == 5)
-	{
-		_5.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_5.Unbind();
-	}
-	if (decenasBee == 6)
-	{
-		_6.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_6.Unbind();
-	}
-	if (decenasBee == 7)
-	{
-		_7.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_7.Unbind();
-	}
-	if (decenasBee == 8)
-	{
-		_8.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_8.Unbind();
-	}
-	if (decenasBee == 9)
-	{
-		_9.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_9.Unbind();
-	}
 
 
-	//printf("%d", decenas); TIIIIIMEEEE
-	if (decenas==0)
-	{
-		_5.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_5.Unbind();
-	}
-	if (decenas == 1)
-	{
-		_4.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_4.Unbind();
-	}
-	if (decenas == 2)
-	{
-		_3.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_3.Unbind();
-	}
-	if (decenas == 3)
-	{
-		_2.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_2.Unbind();
-	}
-	if (decenas == 4)
-	{
-		_1.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_1.Unbind();
-	}
-	if (decenas == 5)
-	{
-		_0.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_0.Unbind();
-	}
+		_points.Unbind();
 
-	//digitos
-	if (unidades == 0)
-	{
-		_9.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_9.Unbind();
-	}
-	if (unidades == 1)
-	{
-		_8.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_8.Unbind();
-	}
-	if (unidades == 2)
-	{
-		_7.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_7.Unbind();
-	}
-	if (unidades == 3)
-	{
-		_6.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_6.Unbind();
-	}
-	if (unidades == 4)
-	{
-		_5.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_5.Unbind();
-	}
-	if (unidades == 5)
-	{
-		_4.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_4.Unbind();
-	}
-	if (unidades == 6)
-	{
-		_3.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_3.Unbind();
-	}
-	if (unidades == 7)
-	{
-		_2.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_2.Unbind();
-	}
-	if (unidades == 8)
-	{
-		_1.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_1.Unbind();
-	}
-	if (unidades == 9)
-	{
-		_0.Bind();
-		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
-		_displayMesh.Draw(GL_TRIANGLES);
-		_0.Unbind();
-	}
+		_time.Bind();
 
-	_displayShaderProgram.Deactivate();
-	
-	glutSwapBuffers();
+		_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTransform.GetModelMatrix());
+		_displayMesh.Draw(GL_TRIANGLES);
+
+		_time.Unbind();
+
+		//TIME CALCULATIONS
+		float seconds = Time::GetDeltaTime().count() + Time::GetElapsedTime().count();
+		int millares = seconds / 1000;
+		int centenas = (seconds - (millares * 1000)) / 100;
+		int decenas = (seconds - (millares * 1000 + centenas * 100)) / 10;
+		int unidades = seconds - (millares * 1000 + centenas * 100 + decenas * 10);
+
+		//BEE COUNT CALCULATIONS
+		int millaresBee = beeCount / 1000;
+		int centenasBee = (beeCount - (millaresBee * 1000)) / 100;
+		int decenasBee = (beeCount - (millaresBee * 1000 + centenasBee * 100)) / 10;
+		int unidadesBee = beeCount - (millaresBee * 1000 + centenasBee * 100 + decenasBee * 10);
+
+		//BEEEE
+		//digitos
+		if (unidadesBee == 0)
+		{
+			_0.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_0.Unbind();
+		}
+		if (unidadesBee == 1)
+		{
+			_1.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_1.Unbind();
+		}
+		if (unidadesBee == 2)
+		{
+			_2.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_2.Unbind();
+		}
+		if (unidadesBee == 3)
+		{
+			_3.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_3.Unbind();
+		}
+		if (unidadesBee == 4)
+		{
+			_4.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_4.Unbind();
+		}
+		if (unidadesBee == 5)
+		{
+			_5.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_5.Unbind();
+		}
+		if (unidadesBee == 6)
+		{
+			_6.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_6.Unbind();
+		}
+		if (unidadesBee == 7)
+		{
+			_7.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_7.Unbind();
+		}
+		if (unidadesBee == 8)
+		{
+			_8.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_8.Unbind();
+		}
+		if (unidadesBee == 9)
+		{
+			_9.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_9.Unbind();
+		}
+		//decenas
+		if (decenasBee == 0)
+		{
+			_0.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_0.Unbind();
+		}
+		if (decenasBee == 1)
+		{
+			_1.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_1.Unbind();
+		}
+		if (decenasBee == 2)
+		{
+			_2.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_2.Unbind();
+		}
+		if (decenasBee == 3)
+		{
+			_3.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_3.Unbind();
+		}
+		if (decenasBee == 4)
+		{
+			_4.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_4.Unbind();
+		}
+		if (decenasBee == 5)
+		{
+			_5.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_5.Unbind();
+		}
+		if (decenasBee == 6)
+		{
+			_6.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_6.Unbind();
+		}
+		if (decenasBee == 7)
+		{
+			_7.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_7.Unbind();
+		}
+		if (decenasBee == 8)
+		{
+			_8.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_8.Unbind();
+		}
+		if (decenasBee == 9)
+		{
+			_9.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayPointsTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_9.Unbind();
+		}
+
+
+		//printf("%d", decenas); TIIIIIMEEEE
+		if (decenas == 0)
+		{
+			_5.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_5.Unbind();
+		}
+		if (decenas == 1)
+		{
+			_4.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_4.Unbind();
+		}
+		if (decenas == 2)
+		{
+			_3.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_3.Unbind();
+		}
+		if (decenas == 3)
+		{
+			_2.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_2.Unbind();
+		}
+		if (decenas == 4)
+		{
+			_1.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_1.Unbind();
+		}
+		if (decenas == 5)
+		{
+			_0.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeTens.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_0.Unbind();
+		}
+
+		//digitos
+		if (unidades == 0)
+		{
+			_9.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_9.Unbind();
+		}
+		if (unidades == 1)
+		{
+			_8.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_8.Unbind();
+		}
+		if (unidades == 2)
+		{
+			_7.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_7.Unbind();
+		}
+		if (unidades == 3)
+		{
+			_6.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_6.Unbind();
+		}
+		if (unidades == 4)
+		{
+			_5.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_5.Unbind();
+		}
+		if (unidades == 5)
+		{
+			_4.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_4.Unbind();
+		}
+		if (unidades == 6)
+		{
+			_3.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_3.Unbind();
+		}
+		if (unidades == 7)
+		{
+			_2.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_2.Unbind();
+		}
+		if (unidades == 8)
+		{
+			_1.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_1.Unbind();
+		}
+		if (unidades == 9)
+		{
+			_0.Bind();
+			_displayShaderProgram.SetUniformMatrix("mvpMatrix", _camera.GetViewProjection()*_displayTimeDigits.GetModelMatrix());
+			_displayMesh.Draw(GL_TRIANGLES);
+			_0.Unbind();
+		}
+
+		_displayShaderProgram.Deactivate();
+
+		glutSwapBuffers();
+	}
 }
 
 //nueva funcion para ingreso en freeglut 
@@ -842,8 +853,9 @@ void Keyboard(unsigned char key, int x, int y)
 	}*/
 	if (keyStates['p'] == true)
 	{
-		glm::vec3 positionbee = _beeHeadTransform.GetPosition();
-		std::cout << positionbee.x << ", " << positionbee.y << ", " << positionbee.z << ", " << std::endl;
+		//glm::vec3 positionbee = _beeHeadTransform.GetPosition();
+		//std::cout << positionbee.x << ", " << positionbee.y << ", " << positionbee.z << ", " << std::endl;
+		jugar = true;
 	}
 }
 
