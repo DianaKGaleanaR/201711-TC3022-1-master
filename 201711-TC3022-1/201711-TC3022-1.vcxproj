@@ -162,6 +162,7 @@
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\Descargas\Portada.png" />
     <Image Include="C:\Users\Luis Motta\Desktop\bee.jpg" />
     <Image Include="C:\Users\Luis Motta\Desktop\beeBody.jpg" />
     <Image Include="C:\Users\Luis Motta\Desktop\beeEyes.jpg" />
@@ -186,9 +187,14 @@
     <Image Include="C:\Users\Luis Motta\Desktop\Time-PNG-Image.png" />
     <Image Include="C:\Users\Luis Motta\Desktop\yellow-texture-26.jpg" />
     <Image Include="C:\Users\Luis Motta\Desktop\yellow-texture-29.jpg" />
+    <Image Include="Crown.png" />
     <Image Include="hm.png" />
     <Image Include="crate.png" />
+    <Image Include="LOSTScreen.png" />
     <Image Include="smiley.jpeg" />
+    <Image Include="Trono.png" />
+    <Image Include="Wings.png" />
+    <Image Include="WINScreen.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

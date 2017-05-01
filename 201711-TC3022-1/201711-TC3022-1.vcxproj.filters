@@ -225,5 +225,23 @@
     <Image Include="C:\Users\Luis Motta\Desktop\Images\2.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Crown.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Trono.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Wings.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\..\..\Descargas\Portada.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="LOSTScreen.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="WINScreen.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

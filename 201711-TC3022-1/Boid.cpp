@@ -51,7 +51,7 @@ void Boid::flock(std::vector<Boid> &boids)
 	glm::vec3 ali = align(boids);
 	glm::vec3 coh = cohesion(boids);
 
-	sep = sep*1.0f; //Pesos
+	sep = sep*2.0f; //Pesos
 	ali = ali * 0.5f; //Pesos
 	coh = coh*0.5f; //Pesos
 
