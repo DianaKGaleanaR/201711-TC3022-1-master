@@ -266,10 +266,10 @@ void Initialize()
 	_terrainTransform.SetPosition(-24.0f, -4.0f, 0.0f);
 	_terrainTransform.SetScale(1.1f, 1.1f, 1.1f);
 	_terrainTransformWall.SetPosition(-24.0f, width - 4.0, 0.0f);
-	_terrainTransform.SetScale(1.1f, 1.1f, 1.1f);
+	_terrainTransform.SetScale(1.3f, 1.3, 1.3f);
 	_terrainTransformWall.SetRotation(0.0f, 0.0f, -90.0f);
 	_terrainTransformWall2.SetPosition(width - 24.0f, -4.0f, 0.0f);
-	_terrainTransformWall2.SetScale(1.1f, 1.1f, 1.1f);
+	_terrainTransformWall2.SetScale(1.3f, 1.3f, 1.3f);
 	_terrainTransformWall2.SetRotation(0.0f, 0.0f, -270.0f);
 	_terrainTransformRoof.SetPosition(39.0f, width - 4.0f, 0.0f);
 	_terrainTransformRoof.SetScale(1.1f, 1.1f, 1.1f);
@@ -414,7 +414,7 @@ void GameLoop()
 				_boids[i].SetDraw(_boids[i].IntersectedCircle(_beeHeadTransform.GetCenter(), _beeHeadTransform.GetRadius()));
 				if (_boids[i].GetDraw() == true)
 				{
-					printf("Bee Count: %d", beeCount);
+					//printf("Bee Count: %d", beeCount);
 					beeCount += 1;
 				}
 			}
@@ -871,7 +871,7 @@ void Keyboard(unsigned char key, int x, int y)
 	keyStates[key] = true;
 	//&& keyStates[key] == true
 	if (keyStates['w'] == true) {
-		if (_beeHeadTransform.GetPosition().y <= 52 && _beeHeadTransform.GetPosition().y >= 3)
+		if (jugar && (_beeHeadTransform.GetPosition().y <= 52 && _beeHeadTransform.GetPosition().y >= 3))
 		{
 			//keyStates[key] = true;
 			_camera.MoveUp(1.0f, true);
@@ -896,7 +896,7 @@ void Keyboard(unsigned char key, int x, int y)
 		}
 	}
 	if (keyStates['s'] == true) {
-		if (_beeHeadTransform.GetPosition().y <= 53 && _beeHeadTransform.GetPosition().y >= 4)
+		if (jugar==true && (_beeHeadTransform.GetPosition().y <= 53 && _beeHeadTransform.GetPosition().y >= 4))
 		{
 			//keyStates[key] = true;
 			_camera.MoveUp(-1.0f, true);
@@ -978,7 +978,7 @@ void SpecialKeys(int key, int x, int y)
 	keySpecialKeys[key] = true;
 	if (keySpecialKeys[GLUT_KEY_UP] == true)//UP
 	{
-		if (_beeHeadTransform.GetPosition().z >= 1 && _beeHeadTransform.GetPosition().z <= 1800)
+		if (jugar && (_beeHeadTransform.GetPosition().z >= 1 && _beeHeadTransform.GetPosition().z <= 1800))
 		{
 			_camera.MoveForward(0.5f, true);
 			_beeTransform.MoveForward(0.5f, true);
@@ -1003,7 +1003,7 @@ void SpecialKeys(int key, int x, int y)
 	}
 	if (keySpecialKeys[GLUT_KEY_DOWN] == true)//DOWN
 	{
-		if (_beeHeadTransform.GetPosition().z >= 1 && _beeHeadTransform.GetPosition().z <= 1800)
+		if (jugar && ( _beeHeadTransform.GetPosition().z >= 1 && _beeHeadTransform.GetPosition().z <= 1800))
 		{
 			//keySpecialKeys[key] = true;
 			/*_terrainTransform.MoveForward(0.5f, true);
@@ -1029,7 +1029,7 @@ void SpecialKeys(int key, int x, int y)
 	}
 	if (keySpecialKeys[GLUT_KEY_RIGHT] == true)//RIGHT
 	{
-		if (_beeHeadTransform.GetPosition().x <= 35 && _beeHeadTransform.GetPosition().x >= -20)
+		if (jugar&& (_beeHeadTransform.GetPosition().x <= 35 && _beeHeadTransform.GetPosition().x >= -20))
 		{
 			//keySpecialKeys[key] = true;
 			_camera.MoveRight(0.5f, true);
@@ -1055,7 +1055,7 @@ void SpecialKeys(int key, int x, int y)
 	}
 	if (keySpecialKeys[GLUT_KEY_LEFT] == true)//LEFT
 	{
-		if (_beeHeadTransform.GetPosition().x <= 36 && _beeHeadTransform.GetPosition().x >= -19)
+		if (jugar&&(_beeHeadTransform.GetPosition().x <= 36 && _beeHeadTransform.GetPosition().x >= -19))
 		{
 			_camera.MoveRight(-0.5f, true);
 			_beeTransform.MoveRight(-0.5f, true);

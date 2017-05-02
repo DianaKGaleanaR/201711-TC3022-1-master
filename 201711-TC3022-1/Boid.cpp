@@ -11,7 +11,7 @@ Boid::Boid(float x, float y, float z, int i)
 	r = 4.0;
 	maxspeed = 0.2f;
 	maxforce = 0.09f;
-	position = glm::vec3(i, i, z);
+	position = glm::vec3(i, i, 15);
 	indice = i;
 	//std::cout << "constructor " << i << std::endl;
 	col = false;
@@ -359,11 +359,11 @@ void Boid::limits(float z)
 {
 	if (position.x < -18) position.x = 34; //el panal va de (-18, 34) en x
 	if (position.y <= 4) position.y += 51; //el panal va de (4, 52) en y
-	if (position.z < z) position.z = z + 29; //le deje que no pudieran ir detras de la camara
+	if (position.z < z-5) position.z = z + 39; //le deje que no pudieran ir detras de la camara
 
 	if (position.x > 35 + r) position.x = -17;
 	if (position.y > 52 + r) position.y = 5;
-	if (position.z > z + 30) position.z = z; //les deje 30 unidades hacia enfrente de la camara para moverse
+	if (position.z > z + 40) position.z = z-4; //les deje 30 unidades hacia enfrente de la camara para moverse
 
 }
 /*
