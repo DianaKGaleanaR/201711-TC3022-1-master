@@ -23,7 +23,7 @@ float secondsJugar;
 std::vector<Boid> _boids;
 ShaderProgram _boidShaderProgram;
 Texture2D _boidTexture;
-//bool draw = false;
+
 
 int beeCount = 0;
 
@@ -107,12 +107,12 @@ void Initialize()
 	jugar = false;
 	//avanza = true;
 	//BOIDS
-	for (int i = 0; i <25; i++)
+	for (int i = 0; i <30; i++)
 	{
 		//Boid b = Boid(_camera.GetPosition().x, _camera.GetPosition().y - 3.0f, _camera.GetPosition().z + 7.2f, i);
 		Boid b = Boid(0, 0, 0, i);
 		_boids.push_back(b);
-		std::cout << "lista boids " << i << std::endl;
+		//std::cout << "lista boids " << i << std::endl;
 		//std::cout << "lista boids " << i << std::endl;
 	}
 
@@ -370,7 +370,7 @@ void GameLoop()
 
 	if (jugar == false && lose == true)
 	{
-		std::cout << "pierdeeeee" << std::endl;
+		//std::cout << "pierdeeeee" << std::endl;
 		_displayShaderProgram.Activate();
 		glActiveTexture(GL_TEXTURE0);
 		_lost.Bind();
@@ -936,7 +936,7 @@ void Keyboard(unsigned char key, int x, int y)
 	if (keyStates['p'] == true)
 	{
 		glm::vec3 positionbee = _beeHeadTransform.GetPosition();
-		std::cout << positionbee.x << ", " << positionbee.y << ", " << positionbee.z << ", " << std::endl;
+		//std::cout << positionbee.x << ", " << positionbee.y << ", " << positionbee.z << ", " << std::endl;
 		jugar = true;
 		secondsJugar = Time::GetDeltaTime().count() + Time::GetElapsedTime().count();
 

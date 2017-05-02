@@ -13,7 +13,7 @@ Boid::Boid(float x, float y, float z, int i)
 	maxforce = 0.09f;
 	position = glm::vec3(i, i, z);
 	indice = i;
-	std::cout << "constructor " << i << std::endl;
+	//std::cout << "constructor " << i << std::endl;
 	col = false;
 }
 
@@ -66,7 +66,6 @@ void Boid::flock(std::vector<Boid> &boids)
 void Boid::update()
 {
 	velocity += acceleration;
-	// creo que estas siguientes dos lineas remplazan a PVecotor.limit(PVector)
 	velocity = glm::normalize(velocity);
 	velocity = velocity* maxforce;
 	position += velocity;
@@ -84,7 +83,6 @@ glm::vec3 Boid::seek(glm::vec3 target)
 	desired = desired*maxspeed;
 
 	glm::vec3 steer = desired - velocity;
-	// creo que estas siguientes dos lineas remplazan a PVecotor.limit(PVector)
 	velocity = glm::normalize(velocity);
 	velocity = velocity* maxforce;
 	return steer;
@@ -226,7 +224,6 @@ void Boid::draw(int i)
 	_mesh.SetTexCoordsAttribute(texCoords, GL_STATIC_DRAW, 3);
 	_mesh.SetIndices(indices, GL_STATIC_DRAW);
 
-	std::cout << "dibujar " << std::endl;
 	_transform.SetPosition(i, i, i);
 	_transform.SetScale(1, 1, 1);
 }
